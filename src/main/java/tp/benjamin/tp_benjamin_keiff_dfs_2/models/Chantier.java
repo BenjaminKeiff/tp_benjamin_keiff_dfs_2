@@ -10,13 +10,15 @@ import lombok.Setter;
 public class Chantier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idChantier;
+    protected Long idChantier;
+
+    protected String nom;
 
     @ManyToOne
     @JoinColumn(name = "chef")
-    private Utilisateur chef;
+    protected Utilisateur chef;
 
     @ManyToOne
     @JoinColumn(name = "client")
-    private Utilisateur client;
+    protected Utilisateur client;
 }
