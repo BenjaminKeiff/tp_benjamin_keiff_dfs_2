@@ -8,7 +8,7 @@ import tp.benjamin.tp_benjamin_keiff_dfs_2.models.Role;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/roles")
+@RequestMapping("/roles")
 public class RoleController {
     @Autowired
     private RoleDao roleDao;

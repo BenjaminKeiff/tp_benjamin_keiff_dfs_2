@@ -1,33 +1,55 @@
 package tp.benjamin.tp_benjamin_keiff_dfs_2.controller;
 
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tp.benjamin.tp_benjamin_keiff_dfs_2.dao.UtilisateurDao;
 import tp.benjamin.tp_benjamin_keiff_dfs_2.models.Utilisateur;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/utilisateurs")
 public class UtilisateurController {
 
-    @Autowired
-    private UtilisateurDao utilisateurDao;
+    private final UtilisateurDao utilisateurDao;
 
-    @GetMapping("/")
-    public List<Utilisateur> getAllUser() {
-        return utilisateurDao.findAll();
+    @Autowired
+    public UtilisateurController(UtilisateurDao utilisateurDao) {
+        this.utilisateurDao = utilisateurDao;
     }
 
+    @GetMapping("/")
+    public ResponseEntity<List<Utilisateur>> getAllUtilisateurs() {
+        List<Utilisateur> utilisateurs = utilisateurDao.findAll();
+        if (utilisateurs.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(utilisateurs, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Utilisateur> getUtilisateurById(@PathVariable Long id) {
+        Optional<Utilisateur> utilisateur = utilisateurDao.findById(id);
+        return utilisateur.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 
     @PostMapping("/")
-    public Utilisateur createUser(@RequestBody Utilisateur utilisateur) {
-        return utilisateurDao.save(utilisateur);
+    public ResponseEntity<Utilisateur> createUtilisateur(@RequestBody Utilisateur utilisateur) {
+        Utilisateur createdUtilisateur = utilisateurDao.save(utilisateur);
+        return new ResponseEntity<>(createdUtilisateur, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        utilisateurDao.deleteById(id);
+    public ResponseEntity<Void> deleteUtilisateur(@PathVariable Long id) {
+        if (utilisateurDao.existsById(id)) {
+            utilisateurDao.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

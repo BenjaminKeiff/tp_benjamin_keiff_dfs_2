@@ -12,7 +12,7 @@ import tp.benjamin.tp_benjamin_keiff_dfs_2.models.Tache;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/tache")
+@RequestMapping("/tache")
 public class TacheController {
 
     @Autowired

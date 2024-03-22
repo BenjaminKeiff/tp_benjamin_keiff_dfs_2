@@ -12,7 +12,7 @@ import tp.benjamin.tp_benjamin_keiff_dfs_2.models.Consommable;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/consommable")
+@RequestMapping("/consommable")
 public class ConsommableController {
 
     @Autowired

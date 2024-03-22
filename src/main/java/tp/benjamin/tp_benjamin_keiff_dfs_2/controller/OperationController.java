@@ -12,7 +12,7 @@ import tp.benjamin.tp_benjamin_keiff_dfs_2.models.Operation;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/operation")
+@RequestMapping("/operation")
 public class OperationController {
 
     @Autowired
